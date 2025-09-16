@@ -1,0 +1,94 @@
+<div class="login-container">
+  <div class="main-card">
+    <div class="movie-poster-section">
+      <div class="movie-background"></div>
+      <div class="movie-overlay">
+        <div class="movie-branding">
+          <i class="fas fa-film movie-icon"></i>
+          <h1 class="brand-title">MovieHub</h1>
+          <p class="brand-subtitle">Your Gateway to Cinema</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="login-form-section">
+    <div class="login-header">
+      <h1 class="welcome-title">Welcome back,</h1>
+      <p class="welcome-subtitle">Sign in to your MovieHub account</p>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form" autocomplete="off" data-lpignore="true">
+      <input type="text" name="fake-username" style="display: none;" tabindex="-1" autocomplete="off">
+      <input type="password" name="fake-password" style="display: none;" tabindex="-1" autocomplete="off">
+      
+      <div class="form-group">
+        <label for="username" class="form-label">Username</label>
+        <input
+          type="text"
+          id="username"
+          formControlName="username"
+          class="form-input"
+          [class.error]="isFieldInvalid('username')"
+          placeholder="Enter username"
+          autocomplete="off"
+          data-lpignore="true"
+          data-form-type="other"
+        />
+        <div class="error-message" *ngIf="isFieldInvalid('username')">
+          {{ getFieldError('username') }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password" class="form-label">Password</label>
+        <div class="password-wrapper">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            id="password"
+            formControlName="password"
+            class="form-input"
+            [class.error]="isFieldInvalid('password')"
+            placeholder="Enter password"
+            autocomplete="off"
+            data-lpignore="true"
+            data-form-type="other"
+            readonly
+            onfocus="this.removeAttribute('readonly')"
+          />
+          <button
+            type="button"
+            class="password-toggle"
+            (click)="togglePasswordVisibility()"
+            [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'"
+          >
+            <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+          </button>
+        </div>
+        <div class="error-message" *ngIf="isFieldInvalid('password')">
+          {{ getFieldError('password') }}
+        </div>
+      </div>
+
+
+      <div class="error-message general-error" *ngIf="errorMessage">
+        <i class="fas fa-exclamation-circle"></i>
+        {{ errorMessage }}
+      </div>
+
+      <button
+        type="submit"
+        class="login-button"
+        [disabled]="isLoading"
+        [class.loading]="isLoading"
+      >
+        <span *ngIf="!isLoading">Sign In</span>
+        <span *ngIf="isLoading" class="loading-content">
+          <i class="fas fa-spinner fa-spin"></i>
+          Signing in...
+        </span>
+      </button>
+    </form>
+
+    </div>
+  </div>
+</div>

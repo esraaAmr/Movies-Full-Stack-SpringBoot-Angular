@@ -1,0 +1,229 @@
+<div class="user-dashboard">
+  <!-- Header -->
+  <header class="dashboard-header">
+    <div class="header-left">
+      <i class="fas fa-film movie-icon"></i>
+      <h1>MovieHub</h1>
+    </div>
+    <div class="header-right">
+      <span class="welcome-text">Welcome, {{ currentUser?.username }}!</span>
+      <button class="logout-btn" (click)="logout()">
+        <i class="fas fa-sign-out-alt"></i>
+        Logout
+      </button>
+    </div>
+  </header>
+
+  <!-- Search Section -->
+  <section class="search-section">
+    <div class="search-container">
+      <h2 class="search-title">Discover Movies</h2>
+      <p class="search-subtitle">Browse and explore our movie collection</p>
+      <div class="search-input-group">
+        <input 
+          type="text" 
+          [(ngModel)]="searchQuery"
+          (input)="searchMovies()"
+          placeholder="Search movies by title, year, or IMDB ID..."
+          class="search-input"
+          (keyup.enter)="searchMovies()"
+        />
+        <button 
+          class="search-btn" 
+          (click)="searchMovies()"
+          [disabled]="!searchQuery.trim()"
+        >
+          <i class="fas fa-search"></i>
+          Search
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Movies Section -->
+  <section class="movies-section">
+    <div class="section-header">
+      <h2>Movie Collection</h2>
+      <span class="movie-count">{{ filteredMovies.length }} movies</span>
+    </div>
+
+    <!-- Loading State -->
+    <div class="loading-state" *ngIf="isLoadingMovies">
+      <i class="fas fa-spinner fa-spin"></i>
+      <span>Loading movies...</span>
+    </div>
+
+    <!-- Movies Grid -->
+    <div class="movies-grid" *ngIf="!isLoadingMovies && paginatedMovies.length > 0">
+      <div class="movie-card" *ngFor="let movie of paginatedMovies" (click)="viewMovieDetails(movie)">
+        <div class="movie-poster">
+          <img 
+            [src]="movie.poster" 
+            [alt]="movie.title" 
+            *ngIf="movie.poster && movie.poster !== 'N/A'"
+            class="poster-image"
+          />
+          <div class="no-poster" *ngIf="!movie.poster || movie.poster === 'N/A'">
+            <i class="fas fa-film"></i>
+            <span>No Image</span>
+          </div>
+          <div class="movie-year-overlay">{{ movie.year }}</div>
+        </div>
+        <div class="movie-info">
+          <h3>{{ movie.title }}</h3>
+          <p class="movie-imdb">IMDB: {{ movie.imdbId }}</p>
+          <div class="movie-rating" *ngIf="hasUserRated(movie.id!)">
+            <div class="user-rating">
+              <div class="stars">
+                <i class="fas fa-star" *ngFor="let star of [].constructor(getUserRating(movie.id!)?.rating || 0)"></i>
+                <i class="far fa-star" *ngFor="let star of [].constructor(5 - (getUserRating(movie.id!)?.rating || 0))"></i>
+              </div>
+              <span>{{ getUserRating(movie.id!)?.rating }}/5</span>
+            </div>
+          </div>
+        </div>
+        <div class="movie-actions">
+          <button class="view-details-btn">
+            <i class="fas fa-eye"></i>
+            View Details
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-state" *ngIf="!isLoadingMovies && filteredMovies.length === 0">
+      <i class="fas fa-film"></i>
+      <h3>No movies found</h3>
+      <p *ngIf="searchQuery">Try adjusting your search terms</p>
+      <p *ngIf="!searchQuery">No movies available in the collection</p>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination" *ngIf="totalPages > 1">
+      <button 
+        class="page-btn" 
+        [disabled]="currentPage === 1"
+        (click)="goToPage(currentPage - 1)"
+      >
+        <i class="fas fa-chevron-left"></i>
+        Previous
+      </button>
+      
+      <div class="page-numbers">
+        <button 
+          class="page-number" 
+          *ngFor="let page of getPageNumbers()"
+          [class.active]="page === currentPage"
+          (click)="goToPage(page)"
+        >
+          {{ page }}
+        </button>
+      </div>
+      
+      <button 
+        class="page-btn" 
+        [disabled]="currentPage === totalPages"
+        (click)="goToPage(currentPage + 1)"
+      >
+        Next
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+  </section>
+
+  <!-- Movie Details Modal -->
+  <div class="movie-details-modal" *ngIf="showMovieDetails && selectedMovie" (click)="closeMovieDetails()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <button class="close-btn" (click)="closeMovieDetails()">
+        <i class="fas fa-times"></i>
+      </button>
+      <div class="movie-details-content">
+        <div class="movie-poster-large">
+          <img 
+            [src]="selectedMovie.poster" 
+            [alt]="selectedMovie.title" 
+            *ngIf="selectedMovie.poster && selectedMovie.poster !== 'N/A'"
+            class="poster-image-large"
+          />
+          <div class="no-poster-large" *ngIf="!selectedMovie.poster || selectedMovie.poster === 'N/A'">
+            <i class="fas fa-film"></i>
+            <span>No Image Available</span>
+          </div>
+        </div>
+        <div class="movie-details-info">
+          <h2>{{ selectedMovie.title }}</h2>
+          <div class="movie-meta">
+            <span class="year">{{ selectedMovie.year }}</span>
+            <span class="imdb-id">IMDB: {{ selectedMovie.imdbId }}</span>
+          </div>
+          <div class="movie-description">
+            <p>This movie is part of our curated collection. Click the IMDB ID to view more details on IMDB.</p>
+          </div>
+          
+          <!-- Rating Section -->
+          <div class="rating-section">
+            <h3>Rate this Movie</h3>
+            <div class="rating-form" *ngIf="selectedMovie?.id && !hasUserRated(selectedMovie.id)">
+              <div class="rating-input">
+                <label for="rating">Rating (1-5):</label>
+                <select [(ngModel)]="newRating" id="rating" class="rating-select" (change)="onRatingChange($event)">
+                  <option [value]="1">1 - Poor</option>
+                  <option [value]="2">2 - Fair</option>
+                  <option [value]="3">3 - Good</option>
+                  <option [value]="4">4 - Very Good</option>
+                  <option [value]="5">5 - Excellent</option>
+                </select>
+              </div>
+              <div class="comment-input">
+                <label for="comment">Comment (optional):</label>
+                <textarea 
+                  [(ngModel)]="newComment" 
+                  id="comment" 
+                  placeholder="Share your thoughts about this movie..."
+                  class="comment-textarea"
+                ></textarea>
+              </div>
+              <button 
+                class="submit-rating-btn" 
+                (click)="submitRating(selectedMovie.id!)"
+                [disabled]="isSubmittingRating"
+              >
+                <i class="fas fa-star" *ngIf="!isSubmittingRating"></i>
+                <i class="fas fa-spinner fa-spin" *ngIf="isSubmittingRating"></i>
+                {{ isSubmittingRating ? 'Submitting...' : 'Submit Rating' }}
+              </button>
+            </div>
+            
+            <div class="existing-rating" *ngIf="selectedMovie?.id && hasUserRated(selectedMovie.id)">
+              <div class="current-rating">
+                <h4>Your Rating</h4>
+                <div class="rating-display">
+                  <div class="stars">
+                    <i class="fas fa-star" *ngFor="let star of [].constructor(getUserRating(selectedMovie.id)?.rating || 0)"></i>
+                    <i class="far fa-star" *ngFor="let star of [].constructor(5 - (getUserRating(selectedMovie.id)?.rating || 0))"></i>
+                  </div>
+                  <span class="rating-text">{{ getUserRating(selectedMovie.id)?.rating }}/5</span>
+                </div>
+                <p class="rating-comment" *ngIf="getUserRating(selectedMovie.id)?.comment">
+                  "{{ getUserRating(selectedMovie.id)?.comment }}"
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="movie-actions">
+            <a 
+              href="https://www.imdb.com/title/{{ selectedMovie.imdbId }}" 
+              target="_blank" 
+              class="imdb-link"
+            >
+              <i class="fab fa-imdb"></i>
+              View on IMDB
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

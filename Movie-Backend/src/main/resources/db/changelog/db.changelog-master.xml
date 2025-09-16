@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+
+    <include file="db/changelog/changeset/001-create-users-table.xml" relativeToChangelogFile="false" author="esraa"/>
+    <include file="db/changelog/changeset/002-create-movies-table.xml" relativeToChangelogFile="false" author="esraa"/>
+    <include file="db/changelog/changeset/003-create-ratings-yable.xml" relativeToChangelogFile="false" author="esraa"/>
+    <include file="db/changelog/changeset/004-add-omdb-fields-to-movies.xml" relativeToChangelogFile="false" author="esraa"/>
+
+</databaseChangeLog>

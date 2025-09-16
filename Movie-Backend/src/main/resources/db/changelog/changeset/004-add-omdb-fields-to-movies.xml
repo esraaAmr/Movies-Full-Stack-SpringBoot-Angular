@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="004" author="esraa">
+        <addColumn tableName="movies">
+            <column name="rated" type="VARCHAR(10)"/>
+            <column name="released" type="VARCHAR(50)"/>
+            <column name="runtime" type="VARCHAR(20)"/>
+            <column name="genre" type="VARCHAR(500)"/>
+            <column name="director" type="VARCHAR(255)"/>
+            <column name="writer" type="VARCHAR(500)"/>
+            <column name="actors" type="VARCHAR(1000)"/>
+            <column name="plot" type="VARCHAR(2000)"/>
+            <column name="language" type="VARCHAR(100)"/>
+            <column name="country" type="VARCHAR(100)"/>
+            <column name="awards" type="VARCHAR(1000)"/>
+            <column name="poster" type="VARCHAR(500)"/>
+            <column name="metascore" type="VARCHAR(10)"/>
+            <column name="imdb_rating" type="VARCHAR(10)"/>
+            <column name="imdb_votes" type="VARCHAR(20)"/>
+            <column name="box_office" type="VARCHAR(50)"/>
+            <column name="production" type="VARCHAR(255)"/>
+        </addColumn>
+
+        <rollback>
+            <dropColumn tableName="movies" columnName="rated"/>
+            <dropColumn tableName="movies" columnName="released"/>
+            <dropColumn tableName="movies" columnName="runtime"/>
+            <dropColumn tableName="movies" columnName="genre"/>
+            <dropColumn tableName="movies" columnName="director"/>
+            <dropColumn tableName="movies" columnName="writer"/>
+            <dropColumn tableName="movies" columnName="actors"/>
+            <dropColumn tableName="movies" columnName="plot"/>
+            <dropColumn tableName="movies" columnName="language"/>
+            <dropColumn tableName="movies" columnName="country"/>
+            <dropColumn tableName="movies" columnName="awards"/>
+            <dropColumn tableName="movies" columnName="poster"/>
+            <dropColumn tableName="movies" columnName="metascore"/>
+            <dropColumn tableName="movies" columnName="imdb_rating"/>
+            <dropColumn tableName="movies" columnName="imdb_votes"/>
+            <dropColumn tableName="movies" columnName="box_office"/>
+            <dropColumn tableName="movies" columnName="production"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

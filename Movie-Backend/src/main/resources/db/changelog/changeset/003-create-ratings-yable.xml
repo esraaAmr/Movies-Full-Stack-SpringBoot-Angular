@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="003" author="esraa">
+        <createTable tableName="ratings">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="movie_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rating" type="DECIMAL(2,1)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="ratings"
+                                 baseColumnNames="user_id"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"
+                                 constraintName="fk_ratings_users"/>
+
+        <addForeignKeyConstraint baseTableName="ratings"
+                                 baseColumnNames="movie_id"
+                                 referencedTableName="movies"
+                                 referencedColumnNames="id"
+                                 constraintName="fk_ratings_movies"/>
+
+        <createIndex indexName="idx_ratings_user_id" tableName="ratings">
+            <column name="user_id"/>
+        </createIndex>
+
+        <createIndex indexName="idx_ratings_movie_id" tableName="ratings">
+            <column name="movie_id"/>
+        </createIndex>
+
+        <addUniqueConstraint
+                tableName="ratings"
+                columnNames="user_id, movie_id"
+                constraintName="uc_user_movie_unique"/>
+
+        <rollback>
+            <dropTable tableName="ratings"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,348 @@
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  animation: fadeIn 0.3s ease;
+  padding: 2rem;
+
+  @keyframes fadeIn {
+    from { 
+      opacity: 0; 
+      backdrop-filter: blur(0px);
+    }
+    to { 
+      opacity: 1; 
+      backdrop-filter: blur(10px);
+    }
+  }
+}
+
+.dialog-container {
+  background: linear-gradient(145deg, #1a1a2e, #16213e);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  max-width: 500px;
+  width: 100%;
+  max-height: 90vh;
+  overflow: hidden;
+  position: relative;
+  animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-origin: center;
+
+  @keyframes slideUp {
+    from { 
+      transform: translateY(50px) scale(0.9); 
+      opacity: 0; 
+    }
+    to { 
+      transform: translateY(0) scale(1); 
+      opacity: 1; 
+    }
+  }
+
+  // Glow effect based on type
+  &::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: 22px;
+    background: linear-gradient(45deg, transparent, transparent);
+    z-index: -1;
+    transition: all 0.3s ease;
+  }
+
+  &.dialog-success::before {
+    background: linear-gradient(45deg, #4ecdc4, #44a08d, #4ecdc4);
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+
+  &.dialog-error::before {
+    background: linear-gradient(45deg, #ff6b6b, #ee5a52, #ff6b6b);
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+
+  &.dialog-warning::before {
+    background: linear-gradient(45deg, #feca57, #ff9ff3, #feca57);
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+
+  &.dialog-confirm::before {
+    background: linear-gradient(45deg, #4ecdc4, #44a08d, #4ecdc4);
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+
+  &.dialog-info::before {
+    background: linear-gradient(45deg, #74b9ff, #0984e3, #74b9ff);
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+
+  @keyframes glow {
+    from { opacity: 0.5; }
+    to { opacity: 0.8; }
+  }
+}
+
+.dialog-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 2rem 2rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), transparent);
+}
+
+.dialog-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+    z-index: 1;
+  }
+
+  i {
+    position: relative;
+    z-index: 2;
+  }
+
+  .dialog-success & {
+    background: linear-gradient(135deg, #4ecdc4, #44a08d);
+    color: white;
+    box-shadow: 0 8px 25px rgba(78, 205, 196, 0.3);
+  }
+
+  .dialog-error & {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+    color: white;
+    box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+  }
+
+  .dialog-warning & {
+    background: linear-gradient(135deg, #feca57, #ff9ff3);
+    color: white;
+    box-shadow: 0 8px 25px rgba(254, 202, 87, 0.3);
+  }
+
+  .dialog-confirm & {
+    background: linear-gradient(135deg, #4ecdc4, #44a08d);
+    color: white;
+    box-shadow: 0 8px 25px rgba(78, 205, 196, 0.3);
+  }
+
+  .dialog-info & {
+    background: linear-gradient(135deg, #74b9ff, #0984e3);
+    color: white;
+    box-shadow: 0 8px 25px rgba(116, 185, 255, 0.3);
+  }
+}
+
+.dialog-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.dialog-body {
+  padding: 2rem;
+}
+
+.dialog-message {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #e0e0e0;
+  margin: 0;
+  text-align: center;
+}
+
+.dialog-footer {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 2rem 2rem;
+  justify-content: center;
+  background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.02));
+}
+
+.dialog-btn {
+  padding: 0.8rem 2rem;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 120px;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+  }
+
+  &:hover::before {
+    left: 100%;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  i {
+    font-size: 0.9rem;
+  }
+}
+
+.dialog-btn-cancel {
+  background: linear-gradient(135deg, #6c757d, #5a6268);
+  color: white;
+  box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
+
+  &:hover {
+    background: linear-gradient(135deg, #5a6268, #495057);
+    box-shadow: 0 6px 20px rgba(108, 117, 125, 0.4);
+  }
+}
+
+.dialog-btn-confirm {
+  background: linear-gradient(135deg, #4ecdc4, #44a08d);
+  color: white;
+  box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+
+  &:hover {
+    background: linear-gradient(135deg, #44a08d, #3d8b7a);
+    box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
+  }
+}
+
+.dialog-btn-success {
+  background: linear-gradient(135deg, #4ecdc4, #44a08d);
+  color: white;
+  box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+
+  &:hover {
+    background: linear-gradient(135deg, #44a08d, #3d8b7a);
+    box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
+  }
+}
+
+.dialog-btn-error {
+  background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+  color: white;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+
+  &:hover {
+    background: linear-gradient(135deg, #ee5a52, #e74c3c);
+    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+  }
+}
+
+.dialog-btn-warning {
+  background: linear-gradient(135deg, #feca57, #ff9ff3);
+  color: white;
+  box-shadow: 0 4px 15px rgba(254, 202, 87, 0.3);
+
+  &:hover {
+    background: linear-gradient(135deg, #ff9ff3, #fdcb6e);
+    box-shadow: 0 6px 20px rgba(254, 202, 87, 0.4);
+  }
+}
+
+.dialog-btn-info {
+  background: linear-gradient(135deg, #74b9ff, #0984e3);
+  color: white;
+  box-shadow: 0 4px 15px rgba(116, 185, 255, 0.3);
+
+  &:hover {
+    background: linear-gradient(135deg, #0984e3, #0770c4);
+    box-shadow: 0 6px 20px rgba(116, 185, 255, 0.4);
+  }
+}
+
+@media (max-width: 768px) {
+  .dialog-overlay {
+    padding: 1rem;
+  }
+
+  .dialog-container {
+    max-width: 100%;
+  }
+
+  .dialog-header {
+    padding: 1.5rem 1.5rem 1rem;
+  }
+
+  .dialog-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+  }
+
+  .dialog-title {
+    font-size: 1.3rem;
+  }
+
+  .dialog-body {
+    padding: 1.5rem;
+  }
+
+  .dialog-message {
+    font-size: 1rem;
+  }
+
+  .dialog-footer {
+    padding: 1rem 1.5rem 1.5rem;
+    flex-direction: column;
+  }
+
+  .dialog-btn {
+    width: 100%;
+    min-width: auto;
+  }
+}

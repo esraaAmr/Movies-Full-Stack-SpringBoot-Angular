@@ -1,0 +1,220 @@
+<div class="admin-dashboard">
+  <!-- Header -->
+  <header class="dashboard-header">
+    <div class="header-left">
+      <i class="fas fa-film movie-icon"></i>
+      <h1>MovieHub Admin</h1>
+    </div>
+    <div class="header-right">
+      <span class="welcome-text">Welcome, {{ currentUser?.username }}!</span>
+      <button class="logout-btn" (click)="logout()">
+        <i class="fas fa-sign-out-alt"></i>
+        Logout
+      </button>
+    </div>
+  </header>
+
+  
+  <section class="search-section">
+    <div class="search-container">
+      <h2 class="search-title">Discover Movies</h2>
+      <p class="search-subtitle">Search and add movies from OMDB API to your database</p>
+      <div class="search-input-group">
+        <input 
+          type="text" 
+          [(ngModel)]="searchQuery"
+          placeholder="Search for movies, series, episodes..."
+          class="search-input"
+          (keyup.enter)="searchMovies()"
+        />
+        <button 
+          class="search-btn" 
+          (click)="searchMovies()"
+          [disabled]="isSearching || !searchQuery.trim()"
+        >
+          <i class="fas fa-search" *ngIf="!isSearching"></i>
+          <i class="fas fa-spinner fa-spin" *ngIf="isSearching"></i>
+          {{ isSearching ? 'Searching...' : 'Search' }}
+        </button>
+      </div>
+    </div>
+  </section>
+
+ 
+  <section class="search-results" *ngIf="searchResults.length > 0">
+    <div class="search-results-header">
+      <h2>Search Results</h2>
+      <div class="batch-actions">
+        <button class="batch-add-btn" (click)="batchAddMovies()">
+          <i class="fas fa-plus-circle"></i>
+          Add All to DB
+        </button>
+      </div>
+    </div>
+    <div class="movie-grid">
+      <div class="movie-card" *ngFor="let movie of searchResults">
+        <div class="movie-poster">
+          <img [src]="movie.Poster" [alt]="movie.Title" *ngIf="movie.Poster !== 'N/A'">
+          <div class="no-poster" *ngIf="movie.Poster === 'N/A'">
+            <i class="fas fa-film"></i>
+            <span>No Image</span>
+          </div>
+        </div>
+        <div class="movie-info">
+          <h3>{{ movie.Title }}</h3>
+          <p class="movie-year">{{ movie.Year }}</p>
+          <p class="movie-type">{{ movie.Type | titlecase }}</p>
+        </div>
+        <button class="add-btn" (click)="addMovieToDB(movie)">
+          <i class="fas fa-plus"></i>
+          Add to DB
+        </button>
+      </div>
+    </div>
+  </section>
+
+  
+  <section class="db-movies-section">
+    <div class="section-header">
+      <h2>Movies in Database</h2>
+      <div class="header-actions">
+        <span class="movie-count">{{ dbMovies.length }} movies</span>
+        <div class="batch-controls">
+          <button 
+            class="batch-toggle-btn" 
+            [class.active]="isBatchMode"
+            (click)="toggleBatchMode()"
+          >
+            <i class="fas fa-check-square"></i>
+            {{ isBatchMode ? 'Exit Batch Mode' : 'Batch Mode' }}
+          </button>
+          <button 
+            class="batch-delete-btn" 
+            *ngIf="isBatchMode && selectedMovies.size > 0"
+            [disabled]="isBatchDeleting"
+            (click)="batchDeleteMovies()"
+          >
+            <i class="fas fa-trash"></i>
+            Delete Selected ({{ selectedMovies.size }})
+          </button>
+        </div>
+      </div>
+    </div>
+
+   
+    <div class="loading-state" *ngIf="isLoadingMovies">
+      <i class="fas fa-spinner fa-spin"></i>
+      <span>Loading movies...</span>
+    </div>
+
+    
+    <div class="movies-grid" *ngIf="!isLoadingMovies && paginatedMovies.length > 0">
+      <div class="db-movie-card" *ngFor="let movie of paginatedMovies" [class.selected]="isMovieSelected(movie.id!)">
+       
+        <div class="movie-poster">
+          <img 
+            [src]="movie.poster" 
+            [alt]="movie.title" 
+            *ngIf="movie.poster && movie.poster !== 'N/A'"
+            class="poster-image"
+          />
+          <div class="no-poster" *ngIf="!movie.poster || movie.poster === 'N/A'">
+            <i class="fas fa-film"></i>
+            <span>No Image</span>
+          </div>
+          
+          <div class="poster-overlay" *ngIf="isBatchMode">
+            <input 
+              type="checkbox" 
+              [checked]="isMovieSelected(movie.id!)"
+              (change)="toggleMovieSelection(movie.id!)"
+              class="overlay-checkbox"
+            />
+          </div>
+        </div>
+        
+        
+        <div class="movie-content">
+          <div class="movie-header">
+            <div class="movie-title-section">
+              <h3>{{ movie.title }}</h3>
+              <div class="movie-year-badge">{{ movie.year }}</div>
+            </div>
+            <button 
+              class="remove-btn" 
+              (click)="removeMovieFromDB(movie.id!)" 
+              [disabled]="!movie.id || isDeletingMovie"
+              *ngIf="!isBatchMode"
+              title="Remove movie"
+            >
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+          
+          <div class="movie-details">
+            <div class="detail-item">
+              <i class="fab fa-imdb"></i>
+              <span>{{ movie.imdbId }}</span>
+            </div>
+            <div class="detail-item">
+              <i class="fas fa-database"></i>
+              <span>ID: {{ movie.id || 'No ID' }}</span>
+            </div>
+          </div>
+          
+         
+          <div class="movie-actions" *ngIf="!isBatchMode">
+            <a 
+              [href]="'https://www.imdb.com/title/' + movie.imdbId" 
+              target="_blank" 
+              class="imdb-link"
+              title="View on IMDB"
+            >
+              <i class="fab fa-imdb"></i>
+              View IMDB
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+   
+    <div class="empty-state" *ngIf="!isLoadingMovies && dbMovies.length === 0">
+      <i class="fas fa-film"></i>
+      <h3>No movies in database</h3>
+      <p>Search and add movies from OMDB API to get started.</p>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination" *ngIf="totalPages > 1">
+      <button 
+        class="page-btn" 
+        [disabled]="currentPage === 1"
+        (click)="goToPage(currentPage - 1)"
+      >
+        <i class="fas fa-chevron-left"></i>
+        Previous
+      </button>
+      
+      <div class="page-numbers">
+        <button 
+          class="page-number" 
+          *ngFor="let page of getPageNumbers()"
+          [class.active]="page === currentPage"
+          (click)="goToPage(page)"
+        >
+          {{ page }}
+        </button>
+      </div>
+      
+      <button 
+        class="page-btn" 
+        [disabled]="currentPage === totalPages"
+        (click)="goToPage(currentPage + 1)"
+      >
+        Next
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+  </section>
+</div>

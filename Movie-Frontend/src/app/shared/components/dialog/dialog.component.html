@@ -1,0 +1,38 @@
+<div class="dialog-overlay" *ngIf="dialogConfig" (click)="onBackdropClick($event)">
+  <div class="dialog-container" [class]="getTypeClass()">
+    <div class="dialog-header">
+      <div class="dialog-icon">
+        <i [class]="getIconClass()"></i>
+      </div>
+      <h3 class="dialog-title">{{ dialogConfig.title }}</h3>
+    </div>
+    
+    <div class="dialog-body">
+      <p class="dialog-message">{{ dialogConfig.message }}</p>
+    </div>
+    
+    <div class="dialog-footer">
+      <button 
+        *ngIf="dialogConfig.showCancel" 
+        class="dialog-btn dialog-btn-cancel" 
+        (click)="onCancel()"
+      >
+        <i class="fas fa-times"></i>
+        {{ dialogConfig.cancelText || 'Cancel' }}
+      </button>
+      
+      <button 
+        class="dialog-btn dialog-btn-confirm" 
+        [class]="'dialog-btn-' + dialogConfig.type"
+        (click)="onConfirm()"
+      >
+        <i class="fas fa-check" *ngIf="dialogConfig.type === 'confirm'"></i>
+        <i class="fas fa-check" *ngIf="dialogConfig.type === 'success'"></i>
+        <i class="fas fa-exclamation" *ngIf="dialogConfig.type === 'warning'"></i>
+        <i class="fas fa-times" *ngIf="dialogConfig.type === 'error'"></i>
+        <i class="fas fa-info" *ngIf="dialogConfig.type === 'info'"></i>
+        {{ dialogConfig.confirmText || 'OK' }}
+      </button>
+    </div>
+  </div>
+</div>
