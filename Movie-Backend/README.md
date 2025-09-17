@@ -1,101 +1,170 @@
-# Movie Backend API
+# 🎬 Movies Full Stack – Spring Boot + Angular  
 
-A Spring Boot REST API for managing movies, users, and ratings with integration to the OMDb API for movie data.
+A complete movie management system built with **Spring Boot** (Backend) and **Angular** (Frontend).  
+It features user authentication, role-based dashboards, OMDb API integration, and a responsive UI.  
 
-## 🚀 Features
+---
 
-- **Movie Management**: Add, search, and manage movies in your database
-- **OMDb Integration**: Import movie data from the Open Movie Database (OMDb) API
-- **User Authentication**: Basic user login functionality
-- **Rating System**: Users can rate movies with scores
-- **Database Management**: PostgreSQL with Liquibase for database migrations
-- **API Documentation**: Swagger UI for interactive API documentation
-- **CORS Support**: Configured for cross-origin requests
+## 🚀 Features  
 
-## 🛠️ Tech Stack
+- Add, search, and manage movies  
+- Import movie data from OMDb API  
+- User authentication (Admin/User roles)  
+- Movie ratings system  
+- Responsive Angular dashboard (Admin & User views)  
+- Confirmation dialogs for delete operations  
+- Swagger UI for interactive API docs  
 
-- **Java 17**
-- **Spring Boot 3.5.5**
-- **Spring Data JPA**
-- **PostgreSQL**
-- **Liquibase** (Database migrations)
-- **MapStruct** (Object mapping)
-- **Lombok** (Code generation)
-- **Swagger/OpenAPI 3** (API documentation)
-- **Maven** (Build tool)
+---
 
-## 📋 Prerequisites
+## 🛠️ Tech Stack  
 
-Before running the application, make sure you have:
+| Layer     | Technology |
+|-----------|------------|
+| **Backend** | Java 17, Spring Boot 3, Spring Data JPA, PostgreSQL, Liquibase, MapStruct, Lombok, Swagger/OpenAPI 3 |
+| **Frontend**| Angular 18, TypeScript 5, Responsive UI |
+| **Other**   | Maven (build), OMDb API integration |
 
-- Java 17 or higher
-- Maven 3.6 or higher
-- PostgreSQL 12 or higher
-- An OMDb API key (get one at [OMDb API](http://www.omdbapi.com/apikey.aspx))
+---
 
-## 🚀 Setup Instructions
+## 📋 Prerequisites  
 
-### 1. Clone the Repository
+- **Java 17** or higher  
+- **Maven 3.6** or higher  
+- **PostgreSQL 12** or higher  
+- **Node.js 18+ / npm**  
+- **OMDb API Key** (get one at [OMDb API](http://www.omdbapi.com/apikey.aspx))  
+
+---
+
+## ⚙️ Setup Guide  
+
+### 1️⃣ Clone the Repository  
 
 ```bash
-git clone https://github.com/esraaAmr/Movie-Backend.git
-cd Movie-Backend
+git clone https://github.com/esraaAmr/Movies-Full-Stack-SpringBoot-Angular.git
+cd Movies-Full-Stack-SpringBoot-Angular
 ```
 
+### 2️⃣ Backend Setup
 
-### 2️⃣ Database Setup
-
-1. **Install PostgreSQL**  
-   Make sure PostgreSQL is installed and running on your machine.
-
-### 2️⃣ Create the Database and Initial Users
-
-1. **Create the Database**  
-   Open your PostgreSQL client or terminal and run:
-
-   ```sql
-   CREATE DATABASE moviedb;
-
-2. **Initial user**
-
-   ```sql
-   INSERT INTO users (username, password, role)
-   VALUES ('admin', 'admin123', 'ADMIN'), ('user', 'user123', 'USER');
-
-### 3. Build and Run
+Navigate to the backend folder
 
 ```bash
-# Build the project
-mvn clean install
+cd Movie-backend
+```
 
-# Run the application
+Install PostgreSQL (if not already installed).
+
+Create the Database
+
+```sql
+CREATE DATABASE moviedb;
+```
+
+Update Database Credentials
+Edit `src/main/resources/application.properties` if needed:
+
+```properties
+spring.datasource.username=postgres
+spring.datasource.password=password
+```
+
+Build & Run Backend
+
+```bash
+mvn clean install
 mvn spring-boot:run
 ```
 
-The application will start on `http://localhost:8081`
+Backend runs at: http://localhost:8081
 
-## 📚 API Documentation
+Swagger UI: http://localhost:8081/docs
 
-Once the application is running, you can access the interactive API documentation at:
-- **Swagger UI**: `http://localhost:8081/docs`
+### 3️⃣ Frontend Setup
+
+Navigate to the frontend folder
+
+```bash
+cd ../Movie-frontend
+```
+
+Install Dependencies
+
+```bash
+npm install
+```
+
+Run Frontend
+
+```bash
+npm start
+```
+
+Frontend runs at: http://localhost:4200
+
+### Backend URL
+The Angular app uses http://localhost:8081 as its API URL (configured in `src/environments/environment.ts`):
+
+```typescript
+export const environment = {
+  production: false,
+  apiUrl: 'http://localhost:8081'
+};
+```
+
+### 4️⃣ Default Login Credentials
+
+| Role  | Username | Password |
+|-------|----------|----------|
+| Admin | admin    | admin123 |
+| User  | user     | user123  |
+
+---
 
 ## 🏗️ Project Structure
 
+```bash
+Movies-Full-Stack-SpringBoot-Angular/
+├── Movie-backend/   # Spring Boot backend
+└── Movie-frontend/  # Angular frontend
 ```
-src/
-├── main/
-│   ├── java/com/example/movie/
-│   │   ├── config/          # Configuration classes
-│   │   ├── controller/      # REST controllers
-│   │   ├── mapper/          # MapStruct mappers
-│   │   ├── model/
-│   │   │   ├── dto/         # Data Transfer Objects
-│   │   │   └── entity/      # JPA entities
-│   │   ├── repository/      # JPA repositories
-│   │   ├── service/         # Business logic
-│   │   └── MovieApplication.java
-│   └── resources/
-│       ├── application.properties
-│       └── db/changelog/    # Liquibase migrations
-└── test/                    # Test classes
+
+---
+
+## 🧪 Testing
+
+### Backend
+Use standard Spring Boot tests (JUnit).
+
+### Frontend
+```bash
+ng test    # Unit tests
+ng e2e     # End-to-end tests
+```
+
+---
+
+## 🐛 Troubleshooting
+
+- **API Connection Error**: Ensure backend is running on port 8081
+- **CORS Issues**: Backend CORS config must allow http://localhost:4200
+- **Authentication Problems**: Verify credentials and backend endpoints
+- **Build Errors**: Run npm install for frontend dependencies
+
+---
+
+## 📜 License
+
+This project is open source — feel free to modify and improve.
+
+---
+
+## ✅ Quick Start
+
+```bash
+# 1. Start PostgreSQL and create moviedb
+# 2. cd Movie-backend && mvn spring-boot:run
+# 3. cd Movie-frontend && npm start
+# 4. Open http://localhost:4200 and login with admin/user credentials
 ```
