@@ -7,6 +7,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+/**
+ * The type Admin initializer.
+ */
 @Slf4j
 @Component
 public class AdminInitializer implements CommandLineRunner {
@@ -14,6 +17,12 @@ public class AdminInitializer implements CommandLineRunner {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    /**
+     * Instantiates a new Admin initializer.
+     *
+     * @param userRepository  the user repository
+     * @param passwordEncoder the password encoder
+     */
     public AdminInitializer(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;

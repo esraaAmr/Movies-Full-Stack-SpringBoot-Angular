@@ -2,6 +2,7 @@ package com.example.movie.controller;
 
 import com.example.movie.model.dto.UserDto;
 import com.example.movie.service.UserService;
+import com.example.movie.service.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,7 @@ public class UserController {
 
     private final UserService userService;
 
-    public UserController(UserService userService) {
+    public UserController(UserServiceImpl userService) {
         this.userService = userService;
     }
 

@@ -10,6 +10,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Arrays;
 
+/**
+ * The type Cors config.
+ */
 @Configuration
 public class CorsConfig implements WebMvcConfigurer {
 
@@ -22,6 +25,11 @@ public class CorsConfig implements WebMvcConfigurer {
                 .allowCredentials(false);
     }
 
+    /**
+     * Cors configuration source cors configuration source.
+     *
+     * @return the cors configuration source
+     */
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();

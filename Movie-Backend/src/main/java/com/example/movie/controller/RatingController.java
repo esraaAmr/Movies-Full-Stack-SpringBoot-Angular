@@ -2,6 +2,7 @@ package com.example.movie.controller;
 
 import com.example.movie.model.dto.RatingDto;
 import com.example.movie.service.RatingService;
+import com.example.movie.service.RatingServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +17,8 @@ public class RatingController {
 
     private final RatingService ratingService;
 
-    public RatingController(RatingService ratingService) {
-        this.ratingService = ratingService;
+    public RatingController(RatingServiceImpl ratingServiceImpl) {
+        this.ratingService = ratingServiceImpl;
     }
 
     @Operation(summary = "Add a rating")
