@@ -130,36 +130,6 @@ Movies-Full-Stack-SpringBoot-Angular/
 └── Movie-frontend/  # Angular frontend
 ```
 
----
-
-## 🧪 Testing
-
-### Backend
-Use standard Spring Boot tests (JUnit).
-
-### Frontend
-```bash
-ng test    # Unit tests
-ng e2e     # End-to-end tests
-```
-
----
-
-## 🐛 Troubleshooting
-
-- **API Connection Error**: Ensure backend is running on port 8081
-- **CORS Issues**: Backend CORS config must allow http://localhost:4200
-- **Authentication Problems**: Verify credentials and backend endpoints
-- **Build Errors**: Run npm install for frontend dependencies
-
----
-
-## 📜 License
-
-This project is open source — feel free to modify and improve.
-
----
-
 ## ✅ Quick Start
 
 ```bash
