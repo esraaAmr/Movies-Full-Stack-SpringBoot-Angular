@@ -5,9 +5,11 @@ It features user authentication, role-based dashboards, OMDb API integration, an
 
 ---
 
-## 🎥 Demo  
+## 🎥 Demo
 
-<video src="Movie-Frontend/src/assets/CompressedMovie.mp4" controls width="700"></video>  
+[![Movie Full Stack Demo](https://img.youtube.com/vi/1o4w-zwLe0I/0.jpg)](https://www.youtube.com/watch?v=1o4w-zwLe0I)
+
+*Click the image above to watch the demo video on YouTube*  
 
 ---
 
