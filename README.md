@@ -7,7 +7,7 @@ It features user authentication, role-based dashboards, OMDb API integration, an
 
 ## 🎥 Demo  
 
-<video src="assets/CompressedMovie.mp4" controls width="700"></video>  
+<video src="Movie-Frontend/src/assets/CompressedMovie.mp4" controls width="700"></video>  
 
 ---
 
