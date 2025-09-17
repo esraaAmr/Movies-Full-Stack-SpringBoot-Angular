@@ -1,4 +1,4 @@
-package com.example.movie.service;
+package com.example.movie.service.impl;
 
 import com.example.movie.error.exception.MovieAlreadyExistsException;
 import com.example.movie.error.exception.MovieNotFoundException;
@@ -8,6 +8,8 @@ import com.example.movie.model.dto.MovieDto;
 import com.example.movie.model.dto.OmdbResponse;
 import com.example.movie.model.entity.Movie;
 import com.example.movie.repository.MovieRepository;
+import com.example.movie.service.MovieService;
+import com.example.movie.service.OmdbService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

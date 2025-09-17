@@ -1,10 +1,11 @@
-package com.example.movie.service;
+package com.example.movie.service.impl;
 
 import com.example.movie.error.exception.AuthenticationFailedException;
 import com.example.movie.mapper.UserMapper;
 import com.example.movie.model.dto.UserDto;
 import com.example.movie.model.entity.User;
 import com.example.movie.repository.UserRepository;
+import com.example.movie.service.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

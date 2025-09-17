@@ -1,4 +1,4 @@
-package com.example.movie.service;
+package com.example.movie.service.impl;
 
 import com.example.movie.error.exception.DuplicateRatingException;
 import com.example.movie.error.exception.InvalidRatingException;
@@ -12,6 +12,7 @@ import com.example.movie.model.entity.User;
 import com.example.movie.repository.MovieRepository;
 import com.example.movie.repository.RatingRepository;
 import com.example.movie.repository.UserRepository;
+import com.example.movie.service.RatingService;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;

@@ -2,7 +2,7 @@ package com.example.movie.controller;
 
 import com.example.movie.model.dto.UserDto;
 import com.example.movie.service.UserService;
-import com.example.movie.service.UserServiceImpl;
+import com.example.movie.service.impl.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;

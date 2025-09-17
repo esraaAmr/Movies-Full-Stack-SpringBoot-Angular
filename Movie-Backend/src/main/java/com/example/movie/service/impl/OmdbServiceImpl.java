@@ -1,4 +1,4 @@
-package com.example.movie.service;
+package com.example.movie.service.impl;
 
 import com.example.movie.error.exception.OmdbMovieNotFoundException;
 import com.example.movie.error.exception.OmdbServiceException;
@@ -7,6 +7,7 @@ import com.example.movie.model.dto.OmdbResponse;
 import com.example.movie.model.dto.OmdbSearchResponse;
 import com.example.movie.model.dto.OmdbSearchResult;
 import com.example.movie.model.entity.Movie;
+import com.example.movie.service.OmdbService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
