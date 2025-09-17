@@ -7,8 +7,7 @@ It features user authentication, role-based dashboards, OMDb API integration, an
 
 ## 🎥 Demo
 
-[![Movie Full Stack Demo](<img width="1917" height="883" alt="image" src="https://github.com/user-attachments/assets/938dd7c6-fcc3-423f-8c37-2415582d5201" />
-)](https://www.youtube.com/watch?v=1o4w-zwLe0I&t=3s)
+[![Movie Full Stack Demo](https://github.com/user-attachments/assets/938dd7c6-fcc3-423f-8c37-2415582d5201)](https://www.youtube.com/watch?v=1o4w-zwLe0I&t=3s)
 
 *Click the image above to watch the demo video on YouTube*  
 
