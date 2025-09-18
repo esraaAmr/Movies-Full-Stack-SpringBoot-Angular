@@ -3,11 +3,10 @@ package com.example.movie.controller;
 import com.example.movie.model.dto.MovieDto;
 import com.example.movie.model.dto.OmdbSearchResult;
 import com.example.movie.service.MovieService;
-import com.example.movie.service.impl.MovieServiceImpl;
 import com.example.movie.service.OmdbService;
-import com.example.movie.service.impl.OmdbServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +20,8 @@ public class MovieController {
     private final MovieService movieService;
     private final OmdbService omdbService;
 
-    public MovieController(MovieServiceImpl movieService, OmdbServiceImpl omdbService) {
+    @Autowired
+    public MovieController(MovieService movieService, OmdbService omdbService) {
         this.movieService = movieService;
         this.omdbService = omdbService;
     }

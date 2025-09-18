@@ -5,6 +5,7 @@ import com.example.movie.service.UserService;
 import com.example.movie.service.impl.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +16,8 @@ public class UserController {
 
     private final UserService userService;
 
-    public UserController(UserServiceImpl userService) {
+    @Autowired
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 

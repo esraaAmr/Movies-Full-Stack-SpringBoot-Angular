@@ -5,6 +5,7 @@ import com.example.movie.service.RatingService;
 import com.example.movie.service.impl.RatingServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,8 +18,9 @@ public class RatingController {
 
     private final RatingService ratingService;
 
-    public RatingController(RatingServiceImpl ratingServiceImpl) {
-        this.ratingService = ratingServiceImpl;
+    @Autowired
+    public RatingController(RatingService ratingService) {
+        this.ratingService = ratingService;
     }
 
     @Operation(summary = "Add a rating")
