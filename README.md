@@ -5,6 +5,13 @@ It features user authentication, role-based dashboards, OMDb API integration, an
 
 ---
 
+## 🎥 Demo
+
+[![Movie Full Stack Demo](https://github.com/user-attachments/assets/f5076efd-9bd6-4b07-aa02-4e56060ca4a7)](https://www.youtube.com/watch?v=1o4w-zwLe0I&t=3s)
+*Click the image above to watch the demo video on YouTube*  
+
+---
+
 ## 🚀 Features  
 
 - Add, search, and manage movies  
